@@ -22,17 +22,19 @@
 
 ///PART 2///
 
-var contact = [
+var contacts = [
   {key: 1, name: "James K Nelson", email: "james@jamesknelson.com", description: "Front-end Unicorn"},
   {key: 2, name: "Jim", email: "jim@example.com"},
   {key: 3, name: "Joe"},
 ];
+var newContact = {name: "", email: "", description:""};
+
 
 var ContactItem = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired,
-    description: React.PropTypes.string.isRequired,
+    description: React.PropTypes.string,
   },
   render(){
     return(
@@ -44,8 +46,25 @@ var ContactItem = React.createClass({
     )
   }
 })
+var ContactForm = React.createClass({
+  propTypes: {
+    contact: React.PropTypes.object.isRequired
+  },
+  render(){
 
-var listElements = contact
+    return(
+      <form>
+        <input type="text" name="name" placeholder="name" value={this.props.contact.name}></input>
+        <input type="text" name="email" placeholder="email" value={this.props.contact.email}></input>
+        <textarea name="description" id="" cols="30" rows="10"
+        placeholder="description" value={this.props.contact.description}></textarea>
+        <button type="submit">add contact</button>
+      </form>
+    )
+  }
+})
+
+var listElements = contacts
   .filter(function(contact){return contact.email;})
   .map(function(contact) {
     return <ContactItem {...contact} />;
@@ -57,7 +76,9 @@ var rootElement =(
     <ul>
       {listElements}
     </ul>
+    <ContactForm contact={newContact} />
   </div>
 );
+
 
 ReactDOM.render(rootElement, document.getElementById("react-app"))
